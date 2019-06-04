@@ -1,0 +1,74 @@
+if status --is-interactive
+	tmux ^ /dev/null; and exec true
+
+	if which keychain >/dev/null
+		keychain --quiet --agents ssh
+	end
+
+	set BASE16_SHELL "$HOME/.config/base16-shell/"
+	source "$BASE16_SHELL/profile_helper.fish"
+end
+
+set -g fish_prompt_pwd_dir_length 0
+
+fish_vi_key_bindings
+bind -M insert \ek history-search-backward
+bind -M insert \ej history-search-forward
+bind -M insert \el accept-autosuggestion
+
+
+# Abbreviations and functions
+abbr cls 'clear'
+abbr ls 'exa'
+abbr v 'exa -l'
+abbr va 'exa -l -a'
+abbr st 'stterm'
+abbr e 'nvim'
+abbr vim 'nvim'
+abbr vimdiff 'nvim -d'
+abbr i 'sxiv'
+abbr o 'xdg-open'
+abbr fm 'pcmanfm'
+
+set -l HOSTNAME (hostname)
+
+function dfh
+	df -h $argv |grep --color=never -E "Filesystem|dev/(mapper|sd)"
+end
+
+
+for new_path in $HOME/bin $HOME/go/bin $HOME/opt/bin /snap/bin /opt/bin /usr/local/bin /sbin /usr/sbin
+	set fish_user_paths $fish_user_paths $new_path
+end
+
+
+switch $TERM
+	case 'stterm-*' # suckless' simple terminal
+		# Enable keypad, do it once before fish_postexec ever fires
+		tput smkx
+		function st_smkx --on-event fish_postexec
+			tput smkx
+		end
+		function st_rmkx --on-event fish_preexec
+			tput rmkx
+		end
+end
+
+set EDITOR nvim
+
+
+# colored man output
+# from http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
+setenv LESS_TERMCAP_mb \e'[01;31m'       # begin blinking
+setenv LESS_TERMCAP_md \e'[01;38;5;74m'  # begin bold
+setenv LESS_TERMCAP_me \e'[0m'           # end mode
+setenv LESS_TERMCAP_se \e'[0m'           # end standout-mode
+setenv LESS_TERMCAP_so \e'[38;5;246m'    # begin standout-mode - info box
+setenv LESS_TERMCAP_ue \e'[0m'           # end underline
+setenv LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
+
+
+if test -f ~/.keychain/$HOSTNAME-fish
+	source ~/.keychain/$HOSTNAME-fish
+end
+
