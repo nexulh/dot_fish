@@ -1,3 +1,5 @@
+set __fish_git_prompt_show_informative_status
+
 function fish_prompt --description 'Write out the prompt'
 	set -l last_status $status
 
