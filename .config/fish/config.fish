@@ -2,12 +2,17 @@ if status --is-interactive
 	tmux ^ /dev/null; and exec true
 
 	if which keychain >/dev/null
-		keychain --quiet --agents ssh
+		keychain --eval --quiet -Q --agents ssh id_rsa | source
 	end
 
 	set BASE16_SHELL "$HOME/.config/base16-shell/"
 	source "$BASE16_SHELL/profile_helper.fish"
+else
+	if test -f ~/.keychain/$HOSTNAME-fish
+		source ~/.keychain/$HOSTNAME-fish
+	end
 end
+
 
 set -g fish_prompt_pwd_dir_length 0
 
@@ -67,8 +72,4 @@ setenv LESS_TERMCAP_so \e'[38;5;246m'    # begin standout-mode - info box
 setenv LESS_TERMCAP_ue \e'[0m'           # end underline
 setenv LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 
-
-if test -f ~/.keychain/$HOSTNAME-fish
-	source ~/.keychain/$HOSTNAME-fish
-end
 
