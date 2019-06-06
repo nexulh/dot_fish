@@ -15,6 +15,9 @@ end
 
 
 set -g fish_prompt_pwd_dir_length 0
+set -l HOSTNAME (hostname)
+set fish_greeting
+
 
 fish_vi_key_bindings
 bind -M insert \ek history-search-backward
@@ -35,12 +38,11 @@ abbr i 'sxiv'
 abbr o 'xdg-open'
 abbr fm 'pcmanfm'
 
-set -l HOSTNAME (hostname)
-
 function dfh
 	df -h $argv |grep --color=never -E "Filesystem|dev/(mapper|sd)"
 end
 
+set GOPATH "$HOME/go"
 
 for new_path in $HOME/bin $HOME/go/bin $HOME/opt/bin /snap/bin /opt/bin /usr/local/bin /sbin /usr/sbin
 	set fish_user_paths $fish_user_paths $new_path
