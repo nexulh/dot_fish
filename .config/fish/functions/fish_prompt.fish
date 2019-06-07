@@ -47,8 +47,9 @@ function fish_prompt --description 'Write out the prompt'
 		end
 	end
 
-	set -l color_cwd
-	set -l prefix
+	#set -l my_color_vcs magenta
+	set -l my_color_vcs brblack
+
 	switch $USER
 	case root toor
 		set suffix '#'
@@ -56,27 +57,30 @@ function fish_prompt --description 'Write out the prompt'
 		set suffix '$'
 	end
 
-	if test -w $PWD
-		set color_cwd $fish_color_cwd
-	else
+	set -l my_color_cwd $fish_color_cwd
+	if ! test -w $PWD
 		if set -q fish_color_cwd_root
-			set color_cwd $fish_color_cwd_root
-		else
-			set color_cwd $fish_color_cwd
+			set my_color_cwd $fish_color_cwd_root
 		end
 	end
 
-	set -l prompt_hostname
-	if set -q SSH_CLIENT
-		set prompt_hostname "@"$__fish_prompt_hostname
-	else
-		set prompt_hostname ""
-	end
+	set prompt_hostname "@"$__fish_prompt_hostname
 
 	set -l prompt_status
 	if test $last_status -ne 0
-		set prompt_status (set_color $fish_color_status) "[$last_status]" "$normal "
+		#set prompt_status "[$last_status]"
+		set fish_color_status red
+	else
+		set fish_color_status white
 	end
 
-	echo -n -s (set_color $fish_color_user) "$USER"$normal (set_color $fish_color_host)"$prompt_hostname" $normal ' in ' (set_color $color_cwd) (prompt_pwd) $normal ' ' (__fish_vcs_prompt) \n$normal $prompt_status "$suffix "
+	# Print prompt
+	if set -q SSH_CONNECTION
+		echo -n -s (set_color $fish_color_user) "$USER"
+		echo -n -s (set_color $fish_color_host) "$prompt_hostname "
+	end
+	echo -n -s (set_color $my_color_cwd) (prompt_pwd) " "
+	echo    -s (set_color $my_color_vcs) (__fish_vcs_prompt)
+	echo -n -s (set_color $fish_color_status) $prompt_status "$suffix "
+	echo -n -s (set_color normal)
 end
