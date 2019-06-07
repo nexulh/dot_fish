@@ -64,7 +64,9 @@ switch $TERM
 		end
 end
 
-set EDITOR nvim
+set VISUAL nvim
+set EDITOR $VISUAL
+set GIT_EDITOR $VISUAL
 
 
 # colored man output
