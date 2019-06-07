@@ -21,10 +21,14 @@ set -l HOSTNAME (hostname)
 set fish_greeting
 
 
-fish_vi_key_bindings
-bind -M insert \ek history-search-backward
-bind -M insert \ej history-search-forward
-bind -M insert \el accept-autosuggestion
+#fish_vi_key_bindings
+#bind -M insert \ek history-search-backward
+#bind -M insert \ej history-search-forward
+#bind -M insert \el accept-autosuggestion
+fish_default_key_bindings
+bind \ek history-search-backward
+bind \ej history-search-forward
+bind \el accept-autosuggestion
 
 
 # Abbreviations and functions
