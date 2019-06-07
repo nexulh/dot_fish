@@ -44,9 +44,12 @@ end
 
 set GOPATH "$HOME/go"
 
-for new_path in $HOME/bin $HOME/go/bin $HOME/opt/bin /snap/bin /opt/bin /usr/local/bin /sbin /usr/sbin
-	set fish_user_paths $fish_user_paths $new_path
+set -e tmp_user_paths
+for tmp_new_path in $HOME/bin $HOME/go/bin $HOME/opt/bin /snap/bin /opt/bin /usr/local/bin /sbin /usr/sbin
+	set -a tmp_user_paths $tmp_new_path
 end
+set fish_user_paths $tmp_user_paths
+set -e tmp_user_paths
 
 
 switch $TERM
