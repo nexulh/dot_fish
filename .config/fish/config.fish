@@ -1,5 +1,7 @@
 if status --is-interactive
-	tmux ^ /dev/null; and exec true
+	if ! set -q SSH_CONNECTION
+		tmux ^ /dev/null; and exec true
+	end
 
 	if which keychain >/dev/null
 		keychain --eval --quiet -Q --agents ssh id_rsa | source
