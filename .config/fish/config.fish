@@ -37,9 +37,6 @@ abbr ls 'exa'
 abbr v 'exa -l'
 abbr va 'exa -l -a'
 abbr st 'stterm'
-abbr e 'nvim'
-abbr vim 'nvim'
-abbr vimdiff 'nvim -d'
 abbr i 'sxiv'
 abbr o 'xdg-open'
 abbr fm 'pcmanfm'
@@ -70,7 +67,7 @@ switch $TERM
 		end
 end
 
-set VISUAL nvim
+set VISUAL vim
 set EDITOR $VISUAL
 set GIT_EDITOR $VISUAL
 
